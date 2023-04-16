@@ -1,0 +1,23 @@
+"""
+Created on Thu Mar  8 11:12:28 2018
+
+@author: aaron_escbr
+"""
+import numpy as np
+
+n = int(input ('n = '))
+#a
+K = np.matrix([n,n])
+for i in range(n):
+    for j in range(n):
+        for k in range(n):
+            if i ==j:
+               k[i,j] = 2
+            elif i == j+1:
+               k[i,j] = -1
+            else:
+               k[i,j] = 0
+               
+print(K)
+ 
+#b

@@ -1,0 +1,16 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+g = 9.8
+h = 90 #initial height 
+
+
+def t_final(t):
+   final_time = np.sqrt((2*h)/g)
+   return final_time
+
+final_time = t_final(t)
+
+print('final time = {}'.format(final_time))
+
+plt.plot(t,y)

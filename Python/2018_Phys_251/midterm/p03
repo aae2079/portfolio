@@ -1,0 +1,62 @@
+#import numpy matplotlib and scipy 
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
+dname = '/Users/aaron_escbr/Downloads' #directory name
+fname = 'free_fall.txt' # file name
+
+dfname='{0:s}/{1:s}'.format(dname,fname)
+
+free_fall = np.genfromtxt(dfname,skip_header=1) #shape the date, take out first header
+
+t = free_fall[:,0] # set first column equal to time(t)
+x = free_fall[:,1] # set second column equal to position(x)
+
+n = t.size # size t array so we can use for our for loop
+
+v = np.empty(n) # create and empty array for velocity
+
+#main for loop for the velocity data
+for i in range (n-1):
+   v[i]=(x[i+1]-x[i])/(t[i+1]-t[i])
+
+#create a line defintion for curve fit
+def line(x,m,b):
+    y = m*x +b
+    return y
+
+popt,pcov = curve_fit(line,t,v)
+m = popt[0]
+b = popt[1]
+
+m_unc = pcov[:,0]
+print(m_unc)
+
+print('m={}'.format(m))
+print('b={}'.format(b))
+plt.figure(1)
+plt.plot(t,v,'.')
+plt.plot(t,line(t,*popt))
+
+
+#b position v time
+def parabola(x,a,b,c):
+    y = a*x**2 + b*x + c
+    return y
+
+popt,povc = curve_fit(parabola,t,x)
+
+a = popt[0]
+b = popt[1]
+c = popt[2]
+
+print('a={}'.format(a))
+print('b={}'.format(b))
+print('c={}'.format(c))
+plt.figure(2)
+plt.plot(t,x,'.',label='positiob v time')
+plt.plot(t,parabola(t, *popt))
+plt.xlabel=('time')
+plt.ylabel=('position')
